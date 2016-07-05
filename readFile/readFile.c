@@ -4,6 +4,8 @@
 #include <string.h>
 
 
+//#define Benson_Debug
+
 char* load_file(char const* path)
 {
 	char* buffer = 0;
@@ -31,10 +33,29 @@ char* load_file(char const* path)
 	return buffer;
 }
 
+void CheckVar(int argc){
+	if(argc != 3){
+		printf("argc value error, argc=%d\n", argc);
+		exit(0);
+	}
+}
+
 int main(int argc, char *argv[]) {
 
+	// 0. check value
+	CheckVar(argc);
+
+	char * PATH1 = argv[1];
+	char * PATH2 = argv[2];
+#ifdef Benson_Debug
+	printf("PATH1 = %s\n", PATH1);
+	printf("PATH2 = %s\n", PATH2);
+#endif
+
+
 	// 1. read andia_app.mk to tmp
-	char * tmp = load_file("./andia_app.mk");
+	//char * tmp = load_file("./andia_app.mk");
+	char * tmp = load_file(PATH1);
 
 	//printf("buffer = %s\n", tmp);
 	
@@ -44,7 +65,8 @@ int main(int argc, char *argv[]) {
 	size_t len = 0;
 	ssize_t read;
 
-	fp = fopen("./vcm30t30.mk", "r");
+	//fp = fopen("./vcm30t30.mk", "r");
+	fp = fopen(PATH2, "r");
 	if (fp == NULL)
 		exit(EXIT_FAILURE);
 
@@ -66,6 +88,7 @@ int main(int argc, char *argv[]) {
 
 	// 3. write line connect to output.txt
 
+#if 0
 	FILE *fptr;
 	fptr=fopen("program.txt","w");
 	if(fptr==NULL){
@@ -74,6 +97,6 @@ int main(int argc, char *argv[]) {
 	}
 	fprintf(fptr,"%s",line);
 	fclose(fptr);
-
+#endif
 	return 0;
 }
