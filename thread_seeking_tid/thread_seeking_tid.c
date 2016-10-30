@@ -10,7 +10,7 @@
 	do { errno = en; perror(msg); exit(EXIT_FAILURE); \
 	} while (0)
 
-threadfunc(void *parm)
+static void *threadfunc(void *parm)
 {
 	sleep(5);          // allow main program to set the thread name
 	return NULL;
