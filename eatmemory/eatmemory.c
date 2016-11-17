@@ -30,15 +30,31 @@ size_t getFreeSystemMemory(){
 }
 #endif
 
-#define T2
+#define T3
+#ifdef T3
+
+bool eat(long total,int chunk){
+	long i;
+	chunk = 4096;
+	for(i=0;i<total;i+=chunk){
+		void *buffer=malloc(sizeof(void)*chunk);
+        if(buffer==NULL){
+            return false;
+        }
+		memset(buffer,0,chunk);
+	}
+    return true;
+}
+#endif
+//#define T2
 #ifdef T2
-char *tmp[4096];
+char *tmp[10000];
 
 bool eat(long total,int chunk){
 	long i;
 	for(i=0;i<total;i+=chunk){
 		char *buffer=malloc(sizeof(char)*chunk);
-		if(i < 4096)
+		if(i < 10000)
 		tmp[i] = buffer;
         if(buffer==NULL){
             return false;
@@ -114,7 +130,6 @@ int main(int argc, char *argv[]){
         }
     }
 
-    sleep(9999999);
 
 }
 
