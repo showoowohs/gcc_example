@@ -30,7 +30,27 @@ size_t getFreeSystemMemory(){
 }
 #endif
 
-#define T3
+#define T4
+#ifdef T4
+
+char *arr[125*1024];
+bool eat(long total,int chunk){
+	long i;
+	chunk = 4096;
+
+	int j = 0;
+	for(i=0;i<total;i+=chunk){
+		arr[++j]=malloc(sizeof(void)*chunk);
+        if(arr[j]==NULL){
+            return false;
+        }
+		memset(arr[j],0,chunk);
+	}
+	//printf("j=%d\n", j);
+    return true;
+}
+#endif
+//#define T3
 #ifdef T3
 
 bool eat(long total,int chunk){
