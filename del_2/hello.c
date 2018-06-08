@@ -25,6 +25,30 @@ uint8_t* hex_decode(char *in, size_t len, uint8_t *out)
 }
 #endif
 
+static unsigned char str2hexnum(unsigned char c)
+{
+	if(c >= '0' && c <= '9')
+		return c - '0';
+	if(c >= 'a' && c <= 'f')
+		return c - 'a' + 10;
+	if(c >= 'A' && c <= 'F')
+		return c - 'A' + 10;
+	return 0; /* foo */
+}
+
+static unsigned long str2hex(unsigned char *str)
+{
+	int value = 0;
+	while (*str) {
+		value = value << 4;
+		value |= str2hexnum(*str++);
+	}
+
+	return value;
+
+	return value;
+}	
+
 int main(int argc, char *argv[])
 {
 	char array[3];
@@ -35,7 +59,7 @@ int main(int argc, char *argv[])
 	char array2[3];
 	array2[0] = "00";
 	array2[1] = "EF";
-	array2[2] = "22";
+	array2[2] = "0x22";
 
 	//char arry3[3];
 	//hex_decode(array2[0], 2, arry3[0]);
@@ -48,6 +72,11 @@ int main(int argc, char *argv[])
 	printf("array2[1]=0x%x\n", array2[1]);
 	printf("array2[2]=0x%x\n", array2[2]);
 
-	printf("0x%x\n", 0x22);
+	unsigned int uisize=0;
+	uisize = str2hex(array2[2]);
+
+	printf("0x%x\n", uisize);
+
+	//https://github.com/houwentaoff/powerpc_i2c_temp/blob/master/fun_test/str2hex.c
 }
 
