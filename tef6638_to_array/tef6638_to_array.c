@@ -7,6 +7,14 @@
 
 #include <sys/stat.h>
 #include <fcntl.h>
+#include <linux/ioctl.h>
+
+#define TEF6638_IOC_MAGIC     'k'
+#define TEF6638_IOCSETCMD     _IOW(TEF6638_IOC_MAGIC,  1, int)
+#define TEF6638_IOCGETNUM     _IOR(TEF6638_IOC_MAGIC,  2, int)
+#define TEF6638_IOCCMDSIZE    _IOWR(TEF6638_IOC_MAGIC, 3, int)
+#define TEF6638_IOC_MAXNR     3
+
 
 static unsigned char str2hexnum(unsigned char c)
 {
@@ -30,6 +38,84 @@ static unsigned long str2hex(unsigned char *str)
 	return value;
 }
 
+static int tef6638_send_cmd(char i2c_cmd[], int array_size){
+	int fd, ret;
+	char fn[256];
+
+	printf("[Antec] tef6638_send_cmd()\n");
+
+	snprintf(fn, sizeof(fn), "/proc/tef6638_dev");
+
+	fd = open(fn, O_RDWR);
+	if (fd < 0) {
+		printf("[Antec] open %s failed\n", fn);
+		close(fd);
+		return -1;
+	}
+
+	// 0xF24300 -> Vol_ScalSwR
+	// set cmd size
+	// set val -> 07EF
+	ret = array_size;// size 5
+	if (ioctl(fd, TEF6638_IOCCMDSIZE, &ret) < 0) {
+		printf("[Antec] send command size %d failed\n", ret);
+		close(fd);
+		return -1;
+	}
+
+#if 0
+	char i2c_cmd[5];
+	i2c_cmd[0] = 0xF2;
+	i2c_cmd[1] = 0x43;
+	i2c_cmd[2] = 0x00;
+	i2c_cmd[3] = 0x07;
+	i2c_cmd[4] = 0xEF;
+#ifdef ANTEC_IOCTL_DEBUG
+	printf("[Antec] send command:\n");
+	int i = 0;
+	for (i = 0 ; i < sizeof(i2c_cmd) ; i++)
+		printf("0x%02x", i2c_cmd[i]);
+#endif
+
+	if (ioctl(fd, TEF6638_IOCSETCMD, &i2c_cmd) < 0) {
+		printf("[Antec] send command %s failed\n", i2c_cmd);
+		//close(fd);
+		//return -1;
+	}
+
+	/*
+	char tmp[128];
+	snprintf(tmp, sizeof(tmp), "0xF2430007EF");
+	//printf("[Antec] send command %s \n", tmp);
+	if (ioctl(fd, TEF6638_IOCSETCMD, &tmp) < 0) {
+		printf("[Antec] send command %s failed\n", tmp);
+		//close(fd);
+		//return -1;
+	}
+	*/
+
+	/* get 
+	ret = 0;
+	if (ioctl(fd, TEF6638_IOCGETNUM, &ret) < 0) {
+		printf("[Antec] get num failed\n");
+		//close(fd);
+		//return -1;
+	}
+	printf("[Antec] get num =%d\n", ret);
+	*/
+#else
+	if (ioctl(fd, TEF6638_IOCSETCMD, &i2c_cmd) < 0) {
+		printf("[Antec] send command %s failed\n", i2c_cmd);
+		//close(fd);
+		//return -1;
+	}
+
+#endif
+
+	close(fd);
+	return 0;
+}
+
 int main(int argc, char *argv[])
 {
 #define CHUNK 1024 /* read 1024 bytes at a time */
@@ -42,8 +128,8 @@ int main(int argc, char *argv[])
 	const char * const delim = " ";
 
 	// Path
-	//snprintf(fn, sizeof(fn), "/etc/firmware/tef6638_init.txt");
-	snprintf(fn, sizeof(fn), "tef6638_init.txt");
+	snprintf(fn, sizeof(fn), "/etc/firmware/tef6638_init.txt");
+	//snprintf(fn, sizeof(fn), "tef6638_init.txt");
 
 	file = fopen(fn, "r");
 	if (file) {
@@ -75,12 +161,13 @@ int main(int argc, char *argv[])
 
 					array_count++;
 					tef6638_i2c_cmd[array_count] = uisize;
-					//printf("0x%02x\n", (unsigned char)tef6638_i2c_cmd[array_count]);
+					printf("0x%02x\n", (unsigned char)tef6638_i2c_cmd[array_count]);
 				}
 				substr = strtok_r(NULL, delim, &saveptr);
 			} while (substr);
 
-#if 1
+			tef6638_send_cmd(tef6638_i2c_cmd, array_length);
+#if 0
 			int i = 0;
 			for(i = 0 ; i <= array_length ; i++){
 				printf("0x%02x\n", (unsigned char)tef6638_i2c_cmd[i]);
