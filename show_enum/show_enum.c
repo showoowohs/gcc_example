@@ -1,0 +1,76 @@
+#include <stdio.h>
+
+enum {
+	MAG3110_DR_STATUS = 0x00,
+	MAG3110_OUT_X_MSB,
+	MAG3110_OUT_X_LSB,
+	MAG3110_OUT_Y_MSB,
+	MAG3110_OUT_Y_LSB,
+	MAG3110_OUT_Z_MSB,
+	MAG3110_OUT_Z_LSB,
+	MAG3110_WHO_AM_I,
+
+	MAG3110_OFF_X_MSB,
+	MAG3110_OFF_X_LSB,
+	MAG3110_OFF_Y_MSB,
+	MAG3110_OFF_Y_LSB,
+	MAG3110_OFF_Z_MSB,
+	MAG3110_OFF_Z_LSB,
+
+	MAG3110_DIE_TEMP,
+
+	MAG3110_CTRL_REG1 = 0x10,
+	MAG3110_CTRL_REG2,
+};
+
+void main(void)
+{
+
+	printf("show %%d\n");
+	printf("MAG3110_DR_STATUS = %d\n", MAG3110_DR_STATUS);
+	printf("MAG3110_OUT_X_MSB = %d\n", MAG3110_OUT_X_MSB);
+	printf("MAG3110_OUT_X_LSB = %d\n", MAG3110_OUT_X_LSB);
+	printf("MAG3110_OUT_Y_MSB = %d\n", MAG3110_OUT_Y_MSB);
+	printf("MAG3110_OUT_Y_LSB = %d\n", MAG3110_OUT_Y_LSB);
+	printf("MAG3110_OUT_Z_MSB = %d\n", MAG3110_OUT_Z_MSB);
+	printf("MAG3110_OUT_Z_LSB = %d\n", MAG3110_OUT_Z_LSB);
+	printf("MAG3110_WHO_AM_I = %d\n", MAG3110_WHO_AM_I);
+
+	printf("MAG3110_OFF_X_MSB = %d\n", MAG3110_OFF_X_MSB);
+	printf("MAG3110_OFF_X_LSB = %d\n", MAG3110_OFF_X_LSB);
+	printf("MAG3110_OFF_Y_MSB = %d\n", MAG3110_OFF_Y_MSB);
+	printf("MAG3110_OFF_Y_LSB = %d\n", MAG3110_OFF_Y_LSB);
+	printf("MAG3110_OFF_Z_MSB = %d\n", MAG3110_OFF_Z_MSB);
+	printf("MAG3110_OFF_Z_LSB = %d\n", MAG3110_OFF_Z_LSB);
+
+	printf("MAG3110_DIE_TEMP = %d\n", MAG3110_DIE_TEMP);
+
+	printf("MAG3110_CTRL_REG1 = %d\n", MAG3110_CTRL_REG1);
+	printf("MAG3110_CTRL_REG2 = %d\n", MAG3110_CTRL_REG2);
+	printf("\n\n\nshow %%x\n");
+
+	printf("MAG3110_DR_STATUS = 0x%02x\n", MAG3110_DR_STATUS);
+	printf("MAG3110_OUT_X_MSB = 0x%02x\n", MAG3110_OUT_X_MSB);
+	printf("MAG3110_OUT_X_LSB = 0x%02x\n", MAG3110_OUT_X_LSB);
+	printf("MAG3110_OUT_Y_MSB = 0x%02x\n", MAG3110_OUT_Y_MSB);
+	printf("MAG3110_OUT_Y_LSB = 0x%02x\n", MAG3110_OUT_Y_LSB);
+	printf("MAG3110_OUT_Z_MSB = 0x%02x\n", MAG3110_OUT_Z_MSB);
+	printf("MAG3110_OUT_Z_LSB = 0x%02x\n", MAG3110_OUT_Z_LSB);
+	printf("MAG3110_WHO_AM_I = 0x%02x\n", MAG3110_WHO_AM_I);
+
+	printf("MAG3110_OFF_X_MSB = 0x%02x\n", MAG3110_OFF_X_MSB);
+	printf("MAG3110_OFF_X_LSB = 0x%02x\n", MAG3110_OFF_X_LSB);
+	printf("MAG3110_OFF_Y_MSB = 0x%02x\n", MAG3110_OFF_Y_MSB);
+	printf("MAG3110_OFF_Y_LSB = 0x%02x\n", MAG3110_OFF_Y_LSB);
+	printf("MAG3110_OFF_Z_MSB = 0x%02x\n", MAG3110_OFF_Z_MSB);
+	printf("MAG3110_OFF_Z_LSB = 0x%02x\n", MAG3110_OFF_Z_LSB);
+
+	printf("MAG3110_DIE_TEMP = 0x%02x\n", MAG3110_DIE_TEMP);
+
+	printf("MAG3110_CTRL_REG1 = 0x%02x\n", MAG3110_CTRL_REG1);
+	printf("MAG3110_CTRL_REG2 = 0x%02x\n", MAG3110_CTRL_REG2);
+	int val = 0x05;
+	val |= 0x2;
+	printf("0x%02x\n", val);
+};
+
