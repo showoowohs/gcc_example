@@ -1,0 +1,3 @@
+#How to build
+arm-linux-gnueabi-gcc -static read_ps.c -o read_ps_ARM 
+
